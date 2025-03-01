@@ -39,8 +39,8 @@
 		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/hw-webpages-pjmas">Visit GitHub</a>
 
 		<figure>
-			<img src="teapot.png" alt="Teapot" style="width:50%"/>
-			<figcaption>You can add images with captions!</figcaption>
+			<img src="cow.png" alt="Teapot" style="width:50%"/>
+			<figcaption>Moo</figcaption>
 		</figure>
 
 		<!--
@@ -48,7 +48,8 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		In this project, we implemented De Casteljau's algorithm for generating smooth Bézier surfaces. To handle the computational complexity of rendering these surfaces, 
+		we used triangle meshes with Phong shading. Additionally, we applied Loop subdivision to refine and smooth 3D meshes, enhancing their visual quality while optimizing performance.
 
 		<h2>Section I: Bezier Curves and Surfaces</h2>
 
@@ -193,12 +194,76 @@
 		</div>
 
 		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
-		First, I used the Loop subdivision rule to figure out new positions for the vertices and edges, saving these in 
-		Vertex::newPosition and Edge::newPosition. Next, I split every edge in the original mesh, making sure to mark new edges 
-		using Edge::isNew. After that, I flipped the edges connecting old and new vertices. Finally, I updated the positions of 
-		the vertices in the mesh to match the new values, ensuring everything was smooth and accurately subdivided. 
-		A key trick was keeping track of the difference between the original and new mesh elements to ensure everything was subdivided correctly.
+		I began by updating the positions of original vertices, blending them with their neighbors to ensure smoother results. 
+		Then, I calculated new midpoint positions for each edge by averaging the endpoints and the adjacent triangle corners. 
+		After that, I split the original edges and added new vertices, marking them to avoid reprocessing. 
+		To fix awkward shapes, I flipped edges connecting old and new vertices. Finally, I updated the vertex positions with the pre-calculated new ones, 
+		giving the mesh a smoother, higher-resolution appearance. The most challenging part was maintaining correct pointers and connections during splitting and flipping.
 		
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./part6/part6_6.png" width="400px"/>
+				  <figcaption>Flipped some edges</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./part6/part6_7.png" width="400px"/>
+				  <figcaption>When upscaled </figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		<p>
+			After performing Loop subdivision, meshes become smoother because the number of triangles increases, allowing for better curvature approximation. 
+			Sharp edges and corners gradually round out due to the weighted averaging of vertex positions. However, pre-splitting edges before subdivision can 
+			help retain some sharpness by introducing additional vertices that preserve structural details.
+		</p>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./part6/part6_1.png" width="400px"/>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./part6/part6_2.png" width="400px"/>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./part6/part6_3.png" width="400px"/>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./part6/part6_4.png" width="400px"/>
+				</td>
+			  </tr>
+			  
+			</table>
+		</div>
+		<p>
+			When the surrounding mesh isn’t balanced, the corner of the cube gets pulled more toward one side (in this case, the top right) 
+			because there are more nearby vertices there, and they are farther away. Since not all cube vertices have the same number of connected 
+			faces, the subdivision process doesn’t treat them equally, making the shape uneven. Instead of smoothing things out evenly, the asymmetry 
+			in the original mesh causes distortions, shifting the corners and making the cube lose its perfect shape.
+		</p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./part6/part6_6.png" width="400px"/>
+				  <figcaption>Flipped some edges</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./part6/part6_7.png" width="400px"/>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		<p>
+			By flipping some edges so they align toward a shared vertex, we create a more balanced structure around the cube’s corners. This ensures that when new vertex positions are calculated, each corner remains centered since its surrounding vertices are evenly spaced.
+		</p>
+
 		</div>
 	</body>
 </html>
