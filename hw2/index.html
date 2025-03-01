@@ -28,15 +28,15 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 2 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;">Name: Leo Wang</div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-pjmas/">Home Page</a>
 
 		<br>
 		
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/hw-webpages-pjmas">Visit GitHub</a>
 
 		<figure>
 			<img src="teapot.png" alt="Teapot" style="width:50%"/>
@@ -53,64 +53,152 @@
 		<h2>Section I: Bezier Curves and Surfaces</h2>
 
 		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<p>
+			De Casteljau’s algorithm is a way to evaluate Bezier curves by repeatedly interpolating between control points. 
+			It works by taking a set of points and blending them step by step using a parameter t, which ranges from 0 to 1. 
+			With each step, new intermediate points are created by moving between the original points, and this process continues 
+			until only one point remains. That final point is the position on the Bezier curve for the given t
+		</p>
+		<p>
+			In my implementation, I wrote a function that takes a list of 2D points and calculates the next set of intermediate 
+			points using linear interpolation. It loops through the points, computes the blended values, and stores them in a new list. 
+			This function only performs one step of the process, so it needs to be called multiple times until just one point is left. 
+			That final point is what defines the curve at that specific t.
+		</p>
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+		<div style="text-align: center;"><img src="./part1/curve6.png"/ width="500px"> <figcaption>completed Bezier curve</figcaption></div>
+		<br/>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="./part1/curve0.png" width="400px"/>
+				  <figcaption>original control points</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="./part1/curve1.png" width="400px"/>
+				  <figcaption>Level 1</figcaption>
 				</td>
 			  </tr>
 			  <tr>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="./part1/curve2.png" width="400px"/>
+				  <figcaption>Level 2</figcaption>
 				</td>
 				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				  <img src="./part1/curve3.png" width="400px"/>
+				  <figcaption>Level 3</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+					<img src="./part1/curve4.png" width="400px"/>
+					<figcaption>Level 4</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="./part1/curve5.png" width="400px"/>
+					<figcaption>Level 5</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		<div style="text-align: center;">
+			<img src="./part1/curve7.png" width="400px">
+			<figcaption>a slightly different Bezier curve</figcaption>
+		</div>
+
+		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
+		De Casteljau’s algorithm extends to Bezier surfaces by applying the same process twice—once for each direction. 
+		First, it evaluates along u to reduce each row of control points to a single point. 
+		Then, it evaluates along v using those points to get the final point on the surface. <br />
+		I implemented this by first computing intermediate points for each row using the same recursive 
+		interpolation method from Bezier curves. After that, I applied the same process to the new set of points along v to find the final surface point.
+		<span>
+			<img src="./part1/teapot.png" width="500px"/>
+			<figcaption>Bezier surfaces of teapot</figcaption>
+		</span>
+
+		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
+
+		<h3>Part 3: Area-weighted vertex normals</h3>
+		To implement the area-weighted vertex normals, I went through each face connected to the vertex using the half-edge structure. 
+		For each face, I calculated the normal by taking the cross product of two edge vectors. I then weighted each face normal by its 
+		area and accumulated the results. After processing all faces, I normalized the sum to get the final vertex normal. 
+		This method gives more importance to larger faces, creating a smoother, more accurate normal for the vertex based on its surrounding geometry.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./part3/mesh1.png" width="400px"/>
+				  <figcaption>Flat shading</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./part3/mesh2.png" width="400px"/>
+				  <figcaption>Phong shading</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
 
-		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
-
-		<h3>Part 3: Area-weighted vertex normals</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
 		<h3>Part 4: Edge flip</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		In implementing the edge flip, I restructured the relationships between halfedges, vertices, and faces to reflect the new configuration of the mesh. 
+		Specifically, I swapped the adjacent halfedges and ensured all connections (such as next, twin, and face) 
+		were updated correctly for the new triangles. An important debugging technique I used was leveraging the 'check_for(...)'
+		function to track element references and ensure the integrity of mesh relationships after the flip. 
+		This helped catch issues with disconnected elements or invalid pointers.
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./part4/part4_1.png" width="400px"/>
+				  <figcaption>Regular teapot</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./part4/part4_2.png" width="400px"/>
+				  <figcaption>Some edge flips</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
 
 		<h3>Part 5: Edge split</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		In implementing the edge split operation, I used some ideas from Part 4, such as managing the relationships between halfedges, vertices, and faces. 
+		Specifically, I reused the strategy for updating halfedge neighbors and ensuring all pointers are correctly set for each element in the mesh. 
+		The key concept was ensuring that after the edge split, all neighboring halfedges and faces are correctly linked, just as we did when managing the 
+		relationships between elements during the edge flip operation in Part 4.
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./part5/part5_1.png" width="400px"/>
+				  <figcaption>Regular teapot</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./part5/part5_2.png" width="400px"/>
+				  <figcaption>Some edge splits</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+					<img src="./part5/part5_1.png" width="400px"/>
+					<figcaption>Regular teapot</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="./part5/part5_3.png" width="400px"/>
+					<figcaption>Some edge flips and splits</figcaption>
+				  </td>
+			  </tr>
+			</table>
+		</div>
 
 		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>(Optional) Section III: Potential Extra Credit - Art Competition: Model something Creative</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
+		First, I used the Loop subdivision rule to figure out new positions for the vertices and edges, saving these in 
+		Vertex::newPosition and Edge::newPosition. Next, I split every edge in the original mesh, making sure to mark new edges 
+		using Edge::isNew. After that, I flipped the edges connecting old and new vertices. Finally, I updated the positions of 
+		the vertices in the mesh to match the new values, ensuring everything was smooth and accurately subdivided. 
+		A key trick was keeping track of the difference between the original and new mesh elements to ensure everything was subdivided correctly.
+		
 		</div>
 	</body>
 </html>
