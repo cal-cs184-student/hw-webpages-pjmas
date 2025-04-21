@@ -1,0 +1,116 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+  }
+  .header-section {
+    background: linear-gradient(135deg, #4568dc, #2a63d4);
+    padding: 4rem 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .header-title {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .header-subtitle {
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+  .card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+  }
+  .card-title {
+    color: #2a63d4;
+    font-weight: 600;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  .list-group-item {
+    border-left: none;
+    border-right: none;
+    padding: 12px 20px;
+  }
+  .list-group-item:first-child {
+    border-top: none;
+  }
+  .list-group-item:last-child {
+    border-bottom: none;
+  }
+  .section-title {
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+  }
+  .section-title:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    height: 4px;
+    width: 60px;
+    background-color: #4568dc;
+    border-radius: 2px;
+  }
+  .resources-section {
+    background-color: #e9f0fd;
+    padding: 4rem 0;
+  }
+  .resource-link {
+    transition: all 0.3s ease;
+  }
+  .resource-link:hover {
+    background-color: #f8f9fa;
+  }
+  .badge {
+    padding: 8px 12px;
+    font-weight: 500;
+  }
+  .achievement-item {
+    position: relative;
+    padding-left: 28px;
+  }
+  .achievement-item:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #2a63d4;
+    font-weight: bold;
+  }
+  .results-image {
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+  }
+  strong {
+    color: #2a63d4;
+  }
+  .timeline-week {
+    border-left: 3px solid #4568dc;
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 25px;
+  }
+  .timeline-week:before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #4568dc;
+  }
+  .timeline-week h5 {
+    margin-bottom: 5px;
+  }
+  .timeline-week ul {
+    padding-left: 18px;
+    margin-bottom: 0;
+  }

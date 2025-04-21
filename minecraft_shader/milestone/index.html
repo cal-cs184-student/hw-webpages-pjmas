@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minecraft Shader Project - Milestone Summary</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f9f9f9;
+    }
+    .section-title {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .card {
+      border-radius: 1rem;
+      box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+    }
+    .achievement-item::before {
+      content: "✔️";
+      margin-right: 0.5rem;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container py-5">
+    <h1 class="text-center mb-4">Minecraft Shader Project</h1>
+    <div class="d-flex justify-content-center mb-4">
+        <a href="https://github.com/yourusername/your-repo" target="_blank" class="btn btn-outline-dark me-2">
+          🔗 GitHub Repo
+        </a>
+        <a href="https://yourwebsite.com/shader-project" target="_blank" class="btn btn-outline-primary">
+          🌐 Project Webpage
+        </a>
+      </div>
+    <h2 class="text-center section-title">Milestone Summary</h2>
+
+    <div class="card mb-4">
+      <div class="card-body p-4">
+        <h3 class="card-title">Key Accomplishments</h3>
+        <ul class="list-unstyled mb-0">
+            <li class="achievement-item mb-3">Completed cross-platform shader environment setup (Windows/macOS compatibility)</li>
+            <li class="achievement-item mb-3">Matched vanilla Minecraft visuals as a baseline for custom shader development</li>
+            <li class="achievement-item mb-3">Implemented transparency handling with alpha discard for blocks like glass and foliage</li>
+            <li class="achievement-item mb-3">Resolved Distant Horizons ocean rendering issue using manual depth estimation</li>
+            <li class="achievement-item mb-3">Developed lighting model using Blinn-Phong and later enhanced with BRDF reflectance</li>
+            <li class="achievement-item">Began implementation of dynamic shadows; currently debugging depth and shadow mapping issues</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body p-4">
+        <h3 class="card-title">Progress Summary</h3>
+        <p>
+            To establish a solid foundation, we initially focused on replicating the visual style of vanilla Minecraft. This provided a consistent baseline for further shader development and helped us verify that our rendering pipeline was functioning correctly across different systems.
+
+            With the base visuals in place, we moved on to improving the lighting model. Our first implementation followed a simplified version of the Blinn-Phong lighting model, which calculates lighting based on three components: ambient, diffuse, and specular reflections. By combining these elements, we were able to simulate basic light interaction with block surfaces, resulting in more dynamic and visually appealing scenes.
+            
+            Seeking a more realistic effect, we later implemented a Bidirectional Reflectance Distribution Function (BRDF) to calculate light reflectance more accurately at each fragment. This method, combined with our existing ambient lighting calculations, produced better visual results. As a result, we adopted the BRDF-based approach for our final lighting model moving forward.
+            
+            We have recently begun work on implementing shadows within the shader. While we have laid the groundwork, we are currently facing several technical challenges and bugs related to depth calculations and shadow mapping. Resolving these issues is our next priority as we continue refining the realism and visual fidelity of our shader.
+        </p>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body p-4">
+          <h3 class="card-title">Progress Relative to Plan</h3>
+          <p>
+            Despite needing to debug more than initially expected, our progress is closely aligned with our Week 2 goals. We’ve completed the setup phase and successfully implemented base lighting features in our shader. We’re currently finalizing and debugging the shadows implementation.
+          </p>
+      
+          <h5 class="mt-4">Newly Planned Features (Based on Feedback)</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2">🌟 <strong>Lens Flare</strong> – Add realistic light streaks for bright light sources</li>
+            <li class="mb-2">🌊 <strong>Water Overlays & Wave Effects</strong> – Include puddle reflections and water distortions</li>
+            <li class="mb-2">🌫️ <strong>Volumetric Fog</strong> – Create depth and atmosphere in the environment</li>
+            <li class="mb-2">🎨 <strong>Reactive Lighting</strong> – Allow colors and brightness to shift dynamically</li>
+            <li class="mb-2">🎞️ <strong>Tone Mapping</strong> – Apply cinematic effects with softer lighting</li>
+            <li class="mb-2">🕶️ <strong>Neo-Noir Theme</strong> – Cohesive aesthetic with harsh shadows, film grain, soft bloom, and volumetric backlight</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="card mb-4">
+        <div class="card-body p-4">
+          <h3 class="card-title">Presentation & Video</h3>
+      
+          <!-- Video Link -->
+          <p>
+            🎬 <strong>Milestone Video:</strong>
+            <a href="https://drive.google.com/file/d/1dcd0QPvPJtwtNTIpMdmQ1Hr5z36NC_EB/view" target="_blank">Click here to view</a>
+          </p>
+          <p>
+            <strong>Slideshows:</strong>
+            <a href="https://docs.google.com/presentation/d/1t-OwTDebMxabXWWq8-_1dAlrz1XIZ54lf5eKjQ1NTg4/edit?usp=sharing">Presentation</a>
+            <a href="https://docs.google.com/presentation/d/1Mr6AsR21yIG5ayR1OZUBrllPfPxmsIk3QR07iZiufx0/edit?usp=sharing">Report</a>
+          </p>
+        </div>
+      </div>
+      
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
