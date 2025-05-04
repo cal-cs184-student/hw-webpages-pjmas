@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Showcase</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            color: white;
+            padding: 80px 0;
+        }
+        
+        .result-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 80px;
+            height: 3px;
+            background: #4e54c8;
+        }
+        
+        .section-subtitle {
+            color: #4e54c8;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .problem-solution {
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .reference-item {
+            padding: 10px 15px;
+            border-left: 3px solid #4e54c8;
+            background: #f8f9fa;
+            margin-bottom: 10px;
+        }
+        
+        .team-contribution {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .team-contribution:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        blockquote {
+            border-left: 4px solid #4e54c8;
+            padding-left: 20px;
+            color: #6c757d;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Abstract Section -->
+    <section id="abstract" class="py-5">
+        <div class="container">
+            <div class="row mb-5 text-center">
+                <div class="col-lg-12">
+                    <h1 class="display-4 fw-bold">NoirCraft</h1>
+                    <p class="lead text-muted">A Cinematic Shader Experience Inspired by Neo-Noir Aesthetics</p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mb-4">
+                <a href="https://cal-cs184-student.github.io/hw-webpages-pjmas/minecraft_shader/" target="_blank" class="btn btn-outline-primary">
+                  🌐 Project Webpage
+                </a>
+              </div>
+            <h2 class="text-center section-title">Abstract</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <p class="lead">
+                                This project presents NoirCraft, a custom shader for Minecraft designed to enhance visual realism while maintaining the game's iconic block-based aesthetic. Starting from a vanilla-accurate baseline, we progressively implemented advanced rendering techniques using GLSL, including dynamic directional lighting, BRDF-based reflectance, real-time shadows influenced by sun and moon position, and transparency-aware shadow casting. Additional post-processing effects—such as bloom, ACES tonemapping, and optimized blur—were layered to achieve a cinematic Neo-Noir visual style. Our approach emphasized modular design and cross-platform compatibility, supported by performance-focused shader optimizations. The result is a stylized yet performant rendering pipeline that transforms Minecraft's atmosphere without compromising its identity.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="technical" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center section-title">Technical Approach</h2>
+            
+
+            <div class="row mb-2">
+                <div class="col-lg-12">
+                    <h3 class="section-subtitle">Methodology Overview</h3>
+                    <p>
+                        Our project aimed to build a custom shader for Minecraft that enhances visual realism while preserving the game's iconic stylized aesthetic. We began by replicating vanilla rendering behavior to establish a stable baseline, allowing us to confirm the correctness of our rendering pipeline and ensure consistent performance across Windows and macOS platforms.
+
+Using GLSL, we developed a rendering system based on vertex and fragment shaders. Vertex shaders handled the transformation of geometry through standard Model-View-Projection (MVP) matrices, while fragment shaders computed per-pixel lighting, shadows, transparency, and visual effects. This modular structure gave us flexibility to incrementally extend features and debug individual components efficiently.
+
+Our lighting model evolved from a basic Blinn-Phong implementation to a physically-inspired BRDF model, which provided more accurate surface reflectance and improved material realism under directional lighting. Shadows were implemented using depth-based shadow mapping, dynamically projected based on sun and moon positions to reflect in-game time changes. We also extended shadow behavior to account for light filtering through transparent materials like stained glass, leaves, and water.
+
+Beyond core lighting and shadows, we layered additional visual enhancements using a post-processing pipeline. Details of our bloom, tonemapping, and blur implementations are discussed in dedicated sections, along with the performance optimizations that allowed us to preserve frame rates under these more demanding effects.
+
+Through targeted shader-level optimization, modular architecture, and artistic consistency, we were able to transform Minecraft’s visual experience into a stylized, cinematic world while maintaining real-time performance.
+                    </p>
+                    <h3 class="section-subtitle">Lighting Calculation</h3>
+                    <p>
+                        Our lighting system progressed from Minecraft’s static shading model to a dynamic, physically-based lighting approach.
+                    </p>
+    
+                    <h5>Vanilla Lighting Limitations</h5>
+                    <p>
+                        Minecraft’s default shading system determines block face lighting based solely on orientation, resulting in only certain sides being shadowed. This static lighting does not respond to sun position or player perspective.
+                    </p>
+    
+                    <h5>Dynamic Directional Lighting</h5>
+                    <p>
+                        To enhance realism, we implemented directional lighting that calculates light intensity at each fragment based on the angle between the surface normal and a dynamic sun vector. This allowed for smooth transitions in brightness as the sun moves across the sky, enabling more immersive lighting throughout the environment.
+                    </p>
+    
+                    <h5>Component-Based Lighting</h5>
+                    <p>
+                        We expanded our model to incorporate:
+                        <ul>
+                            <li><strong>Ambient Lighting:</strong> Constant base illumination to simulate indirect light.</li>
+                            <li><strong>Diffuse Lighting:</strong> Angle-dependent brightness using Lambert’s cosine law.</li>
+                            <li><strong>Specular Highlights:</strong> Phong model-based reflection to simulate glossy surfaces.</li>
+                        </ul>
+                    </p>
+    
+                    <h5>Physically-Based BRDF Model</h5>
+                    <p>
+                        To achieve a higher level of realism, we replaced the Phong model with a simplified BRDF. This model accounts for view angle, light direction, and surface roughness, producing more accurate and natural material highlights. The result was smoother reflections and better simulation of real-world lighting behavior, forming the visual core of our Neo-Noir theme.
+                    </p>
+
+                    <h3 class="section-subtitle">Shadow</h3>
+                    <p>
+                        We enhanced Minecraft’s shadow rendering to produce more dynamic and context-aware results, influenced by the sun and moon’s position throughout the day-night cycle.
+                    </p>
+    
+                    <h5>Vanilla Shadow Limitations</h5>
+                    <p>
+                        In vanilla Minecraft, shadows are static and based solely on block orientation, with no responsiveness to time of day or light direction. This creates a flat, unrealistic appearance in outdoor scenes.
+                    </p>
+    
+                    <h5>Dynamic Directional Shadows</h5>
+                    <p>
+                        Our implementation introduced real-time shadow mapping where the direction and shape of shadows change based on the position of the sun and moon. As the in-game time advances, shadows shift and stretch naturally, enhancing scene realism.
+                    </p>
+    
+                    <h5>Light Source Integration</h5>
+                    <p>
+                        Both the <strong>sun</strong> and <strong>moon</strong> act as directional light sources. During the day, sunlight drives dynamic shadows, while at night, the moon casts directional shadows with reduced intensity, preserving visual consistency.
+                    </p>
+    
+                    <h5>Color-Filtered & Transparent Shadows</h5>
+                    <p>
+                        Our shadow system supports <strong>transparency-aware shadow casting</strong> for various block types. Shadows rendered through transparent blocks like <strong>stained glass, leaves, tall grass, and water</strong> correctly reflect light filtering and shape variation. This feature adds richness to outdoor environments by allowing light to pass through foliage and colored blocks with realistic visual results.
+                    </p>
+
+                    <h3 class="section-subtitle">Post-Processing Effects</h3>
+  <ul>
+    <li><strong>Bloom</strong>: Adds glow to bright areas, simulating light bleeding for a more radiant appearance.</li>
+    <li><strong>ACES Tonemapping</strong>: Compresses HDR colors into a displayable range while preserving color balance and details.</li>
+    <li><strong>Box Blur</strong>: Replaces Gaussian blur with a more efficient average-based blur to smooth the final image.</li>
+  </ul>
+
+  <h3 class="section-subtitle">Optimizations</h3>
+  <ul>
+    <li>Replaced Gaussian blur with faster box blur to reduce computational cost.</li>
+    <li>Removed redundant <code>if</code> statements and <code>lerp</code> operations.</li>
+    <li>Cached repeated texture samples (e.g., specular, normals, lightmap).</li>
+    <li>Simplified tangent and normal vector calculations.</li>
+    <li>Eliminated unnecessary recalculations of matrices and vectors.</li>
+    <li>Precomputed constants and reused vector calculations across frames.</li>
+  </ul>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-12">
+                    <h3 class="section-subtitle">Challenges</h3>
+                    <div class="card bg-white shadow-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul>
+                                        <li><strong>Shadow Mapping Artifacts:</strong> Common issues like shadow acne and peter-panning arise due to floating-point precision errors in depth comparisons. These require careful tuning of bias values and filtering techniques such as Percentage Closer Filtering (PCF).</li>
+                                        <li><strong>Fragment Shader Performance:</strong> Complex lighting models and post-processing effects can create bottlenecks in the fragment stage. Overuse of high-cost operations like per-pixel BRDF calculations and multi-pass blurs can degrade frame rates significantly.</li>
+                                        <li><strong>Transparency and Depth Sorting:</strong> Correctly rendering semi-transparent objects (e.g., water, glass) demands careful handling of alpha values and depth testing. Incorrect ordering can lead to rendering anomalies or completely invisible geometry.</li>
+                                        <li><strong>Shader Debugging Constraints:</strong> Unlike typical code, GLSL shaders offer no built-in debugging tools or logs. Diagnosing issues often relies on visual debugging techniques such as outputting color-encoded normals, depth values, or lighting stages.</li>
+                                        <li><strong>Coordinate Space Misalignment:</strong> Accurate rendering requires correct transformations between model, world, view, and clip spaces. Misuse or confusion between these stages can result in incorrect lighting directions, broken shadows, or misplaced geometry.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lessons Learned -->
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="section-subtitle">Lessons Learned</h3>
+        <div class="card bg-white shadow-sm">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h5><i class="fas fa-check-circle text-success me-2"></i>What We Learned</h5>
+                        <ul>
+                            <li>Starting with vanilla Minecraft visuals gave us a reliable baseline for testing new effects and debugging rendering issues</li>
+                            <li>Visual debugging techniques—like using color outputs for depth, normals, and lighting—were critical for identifying problems quickly</li>
+                            <li>Layering simple effects such as bloom, fog, and tone mapping produced a major visual impact with minimal performance cost</li>
+                            <li>Implementing BRDF lighting deepened our understanding of physically based shading models and trade-offs in real-time graphics</li>
+                            <li>Switching to box blur taught us how small algorithmic changes can yield big performance improvements</li>
+                            <li>Working directly with vertex and fragment shaders helped reinforce our grasp of the GPU pipeline and matrix transformations</li>
+                            <li>Hands-on implementation of shadow mapping and post-processing solidified classroom concepts by applying them in a practical context</li>
+                            <li>Balancing visual quality and performance required constant iteration and thoughtful compromises</li>
+                        </ul>
+                        <blockquote class="mt-4">
+                            "This project taught us that the bridge between theory and practice lies in iteration—refining each effect with visual feedback, performance constraints, and platform consistency in mind."
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title">Results</h2>
+            
+            <!-- Visual Results -->
+            <div class="row mb-5">
+                <div class="col-lg-12">
+                    <h3 class="section-subtitle">Visual Demonstrations</h3>
+                </div>
+                <div class="col-md-4">
+                    <div class="card result-card h-100">
+                        <img src="./img/shader1.jpg" alt="Result 1" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-title">Visualization 1</h4>
+                            <p class="card-text">Our shader (with resource pack) no post-processing</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card result-card h-100">
+                        <img src="./img/shader2.jpg" alt="Result 2" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-title">Visualization 2</h4>
+                            <p class="card-text">Post Processing effects added (no resource pack) before optimizations</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card result-card h-100">
+                        <img src="./img/shader3.jpg" alt="Result 3" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-title">Visualization 3</h4>
+                            <p class="card-text">After post-processing effects (base shader + post processing + w/o resource pack)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- GIF Showcase -->
+            <div class="row mb-5">
+                <div class="col-lg-12">
+                    <h3 class="section-subtitle">GIF Showcase</h3>
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <img src="./img/shaderBest.gif" alt="GIF 1" class="card-img-top img-fluid">
+                                <div class="card-body text-center">
+                                    <p class="card-text">Base show case with out post-processing</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <img src="./img/shaderP.gif" alt="GIF 2" class="card-img-top img-fluid">
+                                <div class="card-body text-center">
+                                    <p class="card-text">Our shader with post-processing. No texture pack</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <img src="./img/shaderCompare.gif" alt="GIF 3" class="card-img-top img-fluid">
+                                <div class="card-body text-center">
+                                    <p class="card-text">Comparisons between vanilla Minecraft shader vs ours with post-processing during night time.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-5">
+                <div class="col-lg-12">
+                    <h3 class="section-subtitle">Presentation Showcase</h3>
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="card-body">
+                                <p>
+                                    Our presentation highlights the technical journey behind <strong>NoirCraft</strong>, covering shader implementation, performance optimizations, benchmarking across systems, and the design choices that guided our Neo-Noir aesthetic.
+                                </p>
+                                <a href="https://drive.google.com/file/d/1T-C9Vc_E0VG2EQQNohPyPL-I5SycgvJ_/view?usp=sharing" target="_blank" class="btn btn-primary">
+                                    View Final Presentation
+                                </a>
+                                <p class="mt-3">
+                                    Topics include our use of GLSL for custom lighting and shadows, trade-offs between visual quality and real-time performance, and the reasoning behind our stylistic and architectural decisions.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Performance Metrics -->
+            <div class="row mb-5">
+                <div class="col-lg-12">
+                    <h3 class="section-subtitle">Performance Metrics</h3>
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <img src="./img/bm.jpg" class="img-fluid" alt="Performance Benchmark">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Results -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="section-subtitle">Additional Findings</h3>
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                        <ul>
+                            <li>Box blur provided comparable visual results to Gaussian blur with significantly lower computational cost.</li>
+                            <li>Manual depth adjustments were essential when integrating with third-party mods like Distant Horizons, due to non-standard LOD rendering behavior.</li>
+                            <li>Even minor post-processing effects—like tone mapping and subtle bloom—greatly enhanced the visual feel when combined.</li>
+                            <li>Consistent use of precomputed constants and shared data reduced GPU load in fragment-heavy scenes.</li>
+                            <li>Working within Minecraft’s stylized aesthetic required thoughtful restraint to ensure new effects felt cohesive rather than out of place.</li>
+                        </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- References Section -->
+    <section id="references" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center section-title">References</h2>
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <ul>
+                        <li>GLSL (OpenGL Shading Language) – <a href="https://www.khronos.org/opengl/wiki/OpenGL_Shading_Language" target="_blank">Khronos Group</a></li>
+                        <li>OpenGL 3.3 Core Profile Documentation – <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/" target="_blank">OpenGL Reference Pages</a></li>
+                        <li>GLSL Optimization Tips – <a href="https://learnopengl.com/Advanced-OpenGL/Advanced-GLSL" target="_blank">LearnOpenGL.com</a></li>
+                        <li>Fabric Modding Documentation – <a href="https://fabricmc.net/wiki/" target="_blank">Fabric Wiki</a></li>
+                        <li>Course Materials – CS184: Foundations of Computer Graphics, UC Berkeley</li>
+                        <li>Iris Shader Documentation – <a href="https://shaders.properties/current/reference/overview/" target="_blank">Iris Shaders GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Team Contributions Section -->
+    <section id="contributions" class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title">Team Contributions</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="team-contribution">
+                        <h4>Eric Xie-McCarthy</h4>
+                        <ul>
+                            <li>Led real-time directional shadow mapping and water reflection using mirrored geometry and animated wave distortion.</li>
+                            <li>Designed the Neo-Noir visual theme with volumetric fog, desaturated tones, and soft bloom.</li>
+                            <li>Conducted benchmark testing across macOS and Windows to ensure stable cross-platform performance.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="team-contribution">
+                        <h4>Nathan Ortega</h4>
+                        <ul>
+                            <li>Refined BRDF lighting and debugged shadow artifacts like acne and peter-panning.</li>
+                            <li>Applied ACES tonemapping, bloom, and fog for post-processing.</li>
+                            <li>Optimized shader performance through caching, math simplification, and constant reuse.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="team-contribution">
+                        <h4>Leo Wang</h4>
+                        <ul>
+                            <li>Built the vanilla-style baseline shader pipeline and implemented transparency rendering.</li>
+                            <li>Contributed to cinematic lighting effects and assisted with shadow tuning.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="team-contribution">
+                        <h4>James Rungsawang</h4>
+                        <ul>
+                            <li>Helped implement directional shadows, light space transformations, and depth sampling.</li>
+                            <li>Developed BRDF-based lighting and verified rendering accuracy through shader validation.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

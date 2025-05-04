@@ -24,10 +24,21 @@
 			body {
 				font-family: 'Inter', sans-serif;
 			}
-			.table th,
-      .table td {
-        text-align: center;
-      }
+			@media print {
+				body {
+				  font-size: 16px; /* Ensure text size stays consistent */
+				}
+				.container {
+				  width: 100%; /* Ensure the container spans the full width when printing */
+				  padding: 10px; /* Adjust padding to make content more readable */
+				}
+				h2, h4 {
+				  page-break-before: always; /* Ensure headings start on a new page if needed */
+				}
+				ul {
+				  margin-left: 20px; /* Add some margin to the lists for better readability */
+				}
+			  }
 		</style>
 	</head>
 	<body>
