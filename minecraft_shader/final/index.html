@@ -165,7 +165,29 @@ Through targeted shader-level optimization, modular architecture, and artistic c
                     <p>
                         To achieve a higher level of realism, we replaced the Phong model with a simplified BRDF. This model accounts for view angle, light direction, and surface roughness, producing more accurate and natural material highlights. The result was smoother reflections and better simulation of real-world lighting behavior, forming the visual core of our Neo-Noir theme.
                     </p>
+                    <h5>Material-Based Glossiness</h5>
+                    <p>
+                        By combining our lighting model with a resource pack, we enabled material-aware shading—certain blocks (like polished stone or metal) now appear shiny or glossy depending on their type. This adds visual depth and distinction, letting materials reflect their physical qualities more realistically under dynamic lighting.
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <img src="./img/glossy_noshader.jpg" class="img-fluid rounded" alt="Without Shader" width="500px">
+                            <p class="mt-2">Without Shader</p>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <img src="./img/glossy_shader.jpg" class="img-fluid rounded" alt="With Shader" width="580px">
+                            <p class="mt-2">With Shader</p>
+                        </div>
+                    </div>
+                    <h5>Reflections Enabled by Lighting Integration</h5>
+                    <p>Thanks to the foundation of our lighting system, we were able to introduce real-time reflections for both water and shiny surfaces. Our directional lighting and BRDF shading made it possible to simulate subtle mirror-like effects on specific materials. Water surfaces now reflect nearby geometry using screen-space reflection techniques, and glossy blocks softly mirror their surroundings—adding depth, realism, and a strong sense of environmental cohesion.</p>
 
+                    <h3 class="section-subtitle">Neon Highlights</h3>
+                    <p>Minecraft doesn't natively support emissive or neon lighting, and relying on third-party neon mods wasn't part of our goal. Instead, we developed our own solution by assigning neon-like glow effects to specific colored blocks—particularly wool blocks.</p>
+                    <p>By detecting wool colors in the fragment shader and boosting their emission under low ambient lighting, we created the appearance of soft, glowing highlights that stand out in dark environments. This effect mimics the feel of neon signs or glowing paint, especially in contrast with our otherwise shadow-heavy, cinematic environment.
+
+                        These neon highlights were especially useful for adding visual accents and guiding attention in darker scenes, fitting perfectly with our Neo-Noir aesthetic.</p>
+                        <img src="./img/neon_code.jpg" width="350px">
                     <h3 class="section-subtitle">Shadow</h3>
                     <p>
                         We enhanced Minecraft’s shadow rendering to produce more dynamic and context-aware results, influenced by the sun and moon’s position throughout the day-night cycle.
